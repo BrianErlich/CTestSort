@@ -9,6 +9,7 @@ void selectionSort(int* arr, int size);
 void insertionSort(int* arr, int size);
 int linearSearch(int* arr, int size, int target);
 int binarySearch(int* arr, int size, int target);
+int binarySearchRecursive(int* arr, int left, int right, int target);
 void generateRandomArray(int* arr, int size);
 void copyArray(int* dest, int* src, int size);
 void evaluateSortAndSearch(int size);
@@ -112,7 +113,7 @@ int linearSearch(int* arr, int size, int target) {
     return -1; // Not found
 }
 
-// Binary Search implementation (requires sorted array)
+// Binary Search implementation - Iterative (requires sorted array)
 int binarySearch(int* arr, int size, int target) {
     int left = 0;
     int right = size - 1;
@@ -130,6 +131,29 @@ int binarySearch(int* arr, int size, int target) {
         }
     }
     return -1; // Not found
+}
+
+// Binary Search implementation - Recursive (requires sorted array)
+// This demonstrates the use of recursion as required in specifications
+int binarySearchRecursive(int* arr, int left, int right, int target) {
+    // Base case: element not found
+    if (left > right) {
+        return -1;
+    }
+
+    int mid = left + (right - left) / 2;
+
+    // Element found
+    if (arr[mid] == target) {
+        return mid;
+    }
+
+    // Recursively search in the appropriate half
+    if (arr[mid] < target) {
+        return binarySearchRecursive(arr, mid + 1, right, target);
+    } else {
+        return binarySearchRecursive(arr, left, mid - 1, target);
+    }
 }
 
 // Evaluation function for a given array size
@@ -186,6 +210,13 @@ void evaluateSortAndSearch(int size) {
     elapsed = getElapsedTime(start, end);
     printf("  + Binary Search:  %12.6f seconds (found at index %d)\n", elapsed, searchResult);
 
+    // Recursive binary search on sorted array
+    start = clock();
+    searchResult = binarySearchRecursive(workArray, 0, size - 1, searchTarget);
+    end = clock();
+    elapsed = getElapsedTime(start, end);
+    printf("  + Binary Search (Recursive): %12.6f seconds (found at index %d)\n", elapsed, searchResult);
+
     // ========== Selection Sort + Linear Search ==========
     copyArray(workArray, original, size);
     start = clock();
@@ -218,6 +249,13 @@ void evaluateSortAndSearch(int size) {
     elapsed = getElapsedTime(start, end);
     printf("  + Binary Search:  %12.6f seconds (found at index %d)\n", elapsed, searchResult);
 
+    // Recursive binary search
+    start = clock();
+    searchResult = binarySearchRecursive(workArray, 0, size - 1, searchTarget);
+    end = clock();
+    elapsed = getElapsedTime(start, end);
+    printf("  + Binary Search (Recursive): %12.6f seconds (found at index %d)\n", elapsed, searchResult);
+
     // ========== Insertion Sort + Linear Search ==========
     copyArray(workArray, original, size);
     start = clock();
@@ -249,6 +287,13 @@ void evaluateSortAndSearch(int size) {
     end = clock();
     elapsed = getElapsedTime(start, end);
     printf("  + Binary Search:  %12.6f seconds (found at index %d)\n", elapsed, searchResult);
+
+    // Recursive binary search
+    start = clock();
+    searchResult = binarySearchRecursive(workArray, 0, size - 1, searchTarget);
+    end = clock();
+    elapsed = getElapsedTime(start, end);
+    printf("  + Binary Search (Recursive): %12.6f seconds (found at index %d)\n", elapsed, searchResult);
 
     // Free memory
     free(original);
