@@ -1,0 +1,11 @@
+# Compiled binaries
+main
+
+# Object files
+*.o
+*.obj
+
+# Other compiled files
+*.exe
+*.out
+*.app
